@@ -12,8 +12,21 @@ export const categoriesController = {
             return res.json(paginatedCategories);
     } catch (err) {
         if (err instanceof Error) {
-            return res.status(400).json({ message: err.message })
+            return res.status(400).json({ message: err.message }); 
         }
     }
-    }   
+    },
+    
+    show: async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+
+            const category = await categoryService.findByIdWithCourses(+id);
+            res.json(category)
+        } catch (error) {
+            if (error instanceof Error) {
+            return res.status(400).json({ message: error.message }); 
+        }
+        }
+    }
 }
